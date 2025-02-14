@@ -2,7 +2,7 @@ import axios from 'axios'
 import {api} from "@/services/api";
 
 const Axios = axios.create({
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: 'https://server:8000/api/',
     headers: {
         "Content-Type": "application/json",
     },
