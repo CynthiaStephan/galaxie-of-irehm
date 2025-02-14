@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:17-alpine
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+  server:
+    build: server/
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/server
+    env_file: .env
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+    restart: on-failure
+  client:
+    build: client/
+    ports:
+      - "3000:3000"
+    volumes: 
+      - ./client/src:/client/src
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run dev
+    depends_on:
+      - server
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Nginx configuration
+      - ./ssl:/etc/ssl/certs  # Certificat SSL et clé
+    ports:
+      - "443:443"  # HTTPS port
+    depends_on:
+      - client
+      - server

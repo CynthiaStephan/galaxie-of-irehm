@@ -1,0 +1,24 @@
+### JetBrains
+.idea
+
+### Environment variables
+.env
+
+# Ignorer les clé de certificat
+ssl/
+*.key
+*.crt
+
+# Ignorer les fichiers et dossiers PostgreSQL
+db/
+pg_*/
+db/base/
+global/
+
+# Ignorer les fichiers générés par Docker
+*.log
+*.pid
+*.sock
+*.lock
+__pycache__/
+
