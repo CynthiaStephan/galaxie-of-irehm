@@ -1,12 +1,5 @@
 import { createApp } from 'vue'
-import router from "@/router"
+import './style.css'
 import App from './App.vue'
 
-import './assets/main.css'
-import {api} from "@/services/api"
-
-const app = createApp(App)
-app.use(router)
-app.mount('#app')
-
-app.config.globalProperties.$api = api
+createApp(App).mount('#app')
