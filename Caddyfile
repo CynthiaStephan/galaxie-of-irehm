@@ -3,25 +3,15 @@ http://localhost {
     redir https://localhost{uri} 301
 }
 
-# Configuration du serveur frontend (Vue.js) pour https
-https://localhost {
+localhost:443 {
+    # Activer un certificat auto-signé pour localhost
+    tls internal
+
+    # Servir le frontend Vue.js
     root * /client
     file_server
     encode gzip
 
-    # Certificat SSL (Caddy gère Let's Encrypt automatiquement)
-    tls youremail@example.com
-}
-
-# Configuration du serveur backend (Django) pour https
-https://localhost {
-    reverse_proxy /api/* server:8000
-    header {
-        X-Real-IP {remote}
-        X-Forwarded-For {remote}
-        X-Forwarded-Proto {scheme}
-    }
-
-    # Certificat SSL (Caddy gère Let's Encrypt automatiquement)
-    tls youremail@example.com
+    # Proxy pour le backend Django
+    reverse_proxy /api/* /server:8000
 }
